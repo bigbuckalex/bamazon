@@ -1,0 +1,24 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "An amazon-like CLI storefront application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bigbuckalex/bamazon.git"
+  },
+  "author": "Alex Lilly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bigbuckalex/bamazon/issues"
+  },
+  "homepage": "https://github.com/bigbuckalex/bamazon#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^6.2.2",
+    "mysql": "^2.16.0"
+  }
+}
