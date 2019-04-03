@@ -25,6 +25,7 @@ function buyItem(){
                 }
             );
         }
+        console.log("\n");
         console.table(displayArr);
 
         inquirer.prompt([
@@ -51,7 +52,8 @@ function processOrder(answers){
         if (error) throw error;
 
         if (parseInt(units) > parseInt(results[0].stock_quantity)){
-            console.log("Not enough in stock!");
+            console.log("\n\nNot enough in stock! Try again!");
+            buyItem();
         }
         else{
             connection.query("UPDATE products SET stock_quantity="+(parseInt(results[0].stock_quantity) - parseInt(units))+" WHERE item_id="+parseInt(id), function (error, results){
