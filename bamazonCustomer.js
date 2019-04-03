@@ -45,16 +45,16 @@ function buyItem(){
 }
 
 function processOrder(idQuantity){
-    connection.query("SELECT stock_quantity FROM products WHERE item_id="+idQuantity.id+";", function(error, results2){
+    connection.query("SELECT stock_quantity FROM products WHERE item_id="+idQuantity.id+";", function(error, results){
         if (error) throw error;
 
-        if (parseInt(idQuantity.units) > parseInt(results2[0].stock_quantity)){
+        if (parseInt(idQuantity.units) > parseInt(results[0].stock_quantity)){
             console.log("Not enough in stock!");
         }
         else{
-            connection.query("UPDATE products SET stock_quantity="+(parseInt(results2[0].stock_quantity) - parseInt(idQuantity.units))+"WHERE item_id="+idQuantity.id, function (error, results3){
+            connection.query("UPDATE products SET stock_quantity="+(parseInt(results[0].stock_quantity) - parseInt(idQuantity.units))+"WHERE item_id="+idQuantity.id, function (error, results){
                 if (error) throw error;
-                console.log(results3);   
+                console.log(results);
             });
         }
     });
