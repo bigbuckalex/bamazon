@@ -39,38 +39,37 @@ function buyItem(){
                 message: "How many units?"
             }
         ]).then(answers=>{
-            processOrder(answers);
-            // console.log(answers.id);
-            // connection.query("SELECT * FROM products WHERE item_id=5", function(error, results){
-            //     if (error) throw error;
-        
-            //     if (parseInt(answers.units) > parseInt(results[0].stock_quantity)){
-            //         console.log("Not enough in stock!");
-            //     }
-            //     else{
-            //         console.log(answers);
-            //         connection.query("UPDATE products SET stock_quantity="+(parseInt(results[0].stock_quantity) - parseInt(answers.units))+"WHERE item_id = ?", [answers.id], function (error, results){
-            //             if (error) throw error;
-            //             console.log(results);
-            //         });
-            //     }
-            // });            
+            processOrder(answers);          
         })
     });
 }
 
-function processOrder(idQuantity){
-    console.log(idQuantity.id );
-    connection.query("SELECT * FROM products WHERE item_id="+parseInt(idQuantity.id), function(error, results){
+function processOrder(answers){
+    let id = answers.id;
+    let units = answers.units;
+    connection.query("SELECT * FROM products WHERE item_id="+parseInt(id), function(error, results){
         if (error) throw error;
 
-        if (parseInt(idQuantity.units) > parseInt(results[0].stock_quantity)){
+        if (parseInt(units) > parseInt(results[0].stock_quantity)){
             console.log("Not enough in stock!");
         }
         else{
-            connection.query("UPDATE products SET stock_quantity="+(parseInt(results[0].stock_quantity) - parseInt(idQuantity.units))+" WHERE item_id="+parseInt(idQuantity.id), function (error, results){
+            connection.query("UPDATE products SET stock_quantity="+(parseInt(results[0].stock_quantity) - parseInt(units))+" WHERE item_id="+parseInt(id), function (error, results){
                 if (error) throw error;
-                console.log(results);
+                console.log("\nThank you for shopping at Bamazon! Your order for "+units+" units of product #"+id+" has been processed.\n");
+                inquirer.prompt([
+                    {
+                        type: "confirm",
+                        name: "bool",
+                        message: "Would you like to continue shopping?"
+                    }
+                ]).then(ans=>{
+                    if (ans.bool) buyItem();
+                    else {
+                        console.log("\nSee you again soon!")
+                        connection.end();
+                    }
+                });
             });
         }
     });
